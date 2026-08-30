@@ -1,4 +1,10 @@
-import { Box, Container, Grid, styled, Typography } from "@mui/material";
+import {
+  Box,
+  Container,
+  Grid,
+  styled,
+  Typography,
+} from "@mui/material";
 
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import ComputerOutlinedIcon from "@mui/icons-material/ComputerOutlined";
@@ -29,15 +35,26 @@ const StyledEducation = styled("section")(({ theme }) => ({
   minHeight: "75vh",
   padding: "96px 0",
   scrollMarginTop: "70px",
-  color: theme.palette.primary.contrastText,
   overflow: "hidden",
 
-  background: `linear-gradient(
-    to bottom,
-    #000000 0%,
-    #050816 45%,
-    ${theme.palette.primary.main} 100%
-  )`,
+  color: theme.palette.text.primary,
+
+  background:
+    theme.palette.mode === "dark"
+      ? `linear-gradient(
+          to bottom,
+          #000000 0%,
+          #050816 45%,
+          ${theme.palette.primary.main} 100%
+        )`
+      : `linear-gradient(
+          to bottom,
+          #e2e8f0 0%,
+          #f1f5f9 45%,
+          #f8fafc 100%
+        )`,
+
+  transition: "background 0.35s ease, color 0.35s ease",
 }));
 
 const EducationCard = styled("article")(({ theme }) => ({
@@ -47,12 +64,28 @@ const EducationCard = styled("article")(({ theme }) => ({
   padding: "32px",
   overflow: "hidden",
 
+  color: theme.palette.text.primary,
+
+  backgroundColor:
+    theme.palette.mode === "dark"
+      ? "rgba(0, 0, 0, 0.35)"
+      : "rgba(255, 255, 255, 0.78)",
+
+  border: `1px solid ${
+    theme.palette.mode === "dark"
+      ? "rgba(56, 189, 248, 0.25)"
+      : "rgba(2, 132, 199, 0.25)"
+  }`,
+
   borderRadius: "14px",
-  border: "1px solid rgba(56, 189, 248, 0.25)",
-  backgroundColor: "rgba(0, 0, 0, 0.35)",
+
+  boxShadow:
+    theme.palette.mode === "dark"
+      ? "none"
+      : "0 8px 25px rgba(15, 23, 42, 0.08)",
 
   transition:
-    "transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease",
+    "transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.3s ease",
 
   "&::before": {
     content: '""',
@@ -60,15 +93,24 @@ const EducationCard = styled("article")(({ theme }) => ({
     top: "24px",
     bottom: "24px",
     left: 0,
+
     width: "3px",
     backgroundColor: theme.palette.secondary.main,
-    boxShadow: "0 0 14px rgba(56, 189, 248, 0.7)",
+
+    boxShadow:
+      theme.palette.mode === "dark"
+        ? "0 0 14px rgba(56, 189, 248, 0.7)"
+        : "0 0 12px rgba(2, 132, 199, 0.35)",
   },
 
   "&:hover": {
     transform: "translateY(-5px)",
     borderColor: theme.palette.secondary.main,
-    boxShadow: "0 10px 30px rgba(56, 189, 248, 0.16)",
+
+    boxShadow:
+      theme.palette.mode === "dark"
+        ? "0 10px 30px rgba(56, 189, 248, 0.16)"
+        : "0 10px 30px rgba(2, 132, 199, 0.16)",
   },
 }));
 
@@ -81,10 +123,20 @@ const IconContainer = styled("div")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "center",
 
-  borderRadius: "12px",
   color: theme.palette.secondary.main,
-  border: "1px solid rgba(56, 189, 248, 0.35)",
-  backgroundColor: "rgba(56, 189, 248, 0.08)",
+
+  backgroundColor:
+    theme.palette.mode === "dark"
+      ? "rgba(56, 189, 248, 0.08)"
+      : "rgba(2, 132, 199, 0.08)",
+
+  border: `1px solid ${
+    theme.palette.mode === "dark"
+      ? "rgba(56, 189, 248, 0.35)"
+      : "rgba(2, 132, 199, 0.3)"
+  }`,
+
+  borderRadius: "12px",
 
   "& svg": {
     fontSize: "34px",
@@ -96,10 +148,20 @@ const Status = styled("span")(({ theme }) => ({
   margin: "12px 0 18px",
   padding: "6px 12px",
 
-  borderRadius: "20px",
   color: theme.palette.secondary.main,
-  backgroundColor: "rgba(56, 189, 248, 0.08)",
-  border: "1px solid rgba(56, 189, 248, 0.3)",
+
+  backgroundColor:
+    theme.palette.mode === "dark"
+      ? "rgba(56, 189, 248, 0.08)"
+      : "rgba(2, 132, 199, 0.08)",
+
+  border: `1px solid ${
+    theme.palette.mode === "dark"
+      ? "rgba(56, 189, 248, 0.3)"
+      : "rgba(2, 132, 199, 0.3)"
+  }`,
+
+  borderRadius: "20px",
 
   fontSize: "0.85rem",
   fontWeight: 600,
@@ -112,13 +174,12 @@ const Education = () => {
         <Typography
           variant="h3"
           color="secondary"
-          sx={{ textAlign: "center", fontWeight: 600, marginBottom: 2 }}
+          sx={{ textAlign: "center", mb: 2 }}
         >
           Formação
         </Typography>
 
         <Typography
-          variant="body1"
           color="text.secondary"
           sx={{ textAlign: "center", maxWidth: "650px", mx: "auto", mb: 6 }}
         >
@@ -144,15 +205,12 @@ const Education = () => {
                     <Typography
                       variant="h5"
                       color="secondary"
-                      sx={{ fontWeight: 600, mb: 1 }}
+                      sx={{ mb: 1 }}
                     >
                       {education.title}
                     </Typography>
 
-                    <Typography
-                      color="primary.contrastText"
-                      sx={{ fontWeight: 600 }}
-                    >
+                    <Typography color="text.primary" sx={{ fontWeight: 600 }}>
                       {education.institution}
                     </Typography>
 

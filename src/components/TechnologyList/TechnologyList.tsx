@@ -33,9 +33,6 @@ const technologies = [
 const TechnologyCard = styled("article")(({ theme }) => ({
   minHeight: "120px",
   padding: "20px 14px",
-  borderRadius: "12px",
-  border: "1px solid rgba(56, 189, 248, 0.3)",
-  backgroundColor: "rgba(0, 0, 0, 0.25)",
 
   display: "flex",
   flexDirection: "column",
@@ -44,12 +41,39 @@ const TechnologyCard = styled("article")(({ theme }) => ({
   gap: "12px",
 
   color: theme.palette.secondary.main,
-  transition: "transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease",
+
+  backgroundColor:
+    theme.palette.mode === "dark"
+      ? "rgba(0, 0, 0, 0.25)"
+      : "rgba(255, 255, 255, 0.75)",
+
+  border: `1px solid ${
+    theme.palette.mode === "dark"
+      ? "rgba(56, 189, 248, 0.3)"
+      : "rgba(2, 132, 199, 0.25)"
+  }`,
+
+  borderRadius: "12px",
+
+  boxShadow:
+    theme.palette.mode === "dark"
+      ? "none"
+      : "0 6px 20px rgba(15, 23, 42, 0.07)",
+
+  transition:
+    "transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.3s ease",
 
   "&:hover": {
     transform: "translateY(-5px)",
     borderColor: theme.palette.secondary.main,
-    boxShadow: "0 8px 25px rgba(56, 189, 248, 0.18)",
+    boxShadow:
+      theme.palette.mode === "dark"
+        ? "0 8px 25px rgba(56, 189, 248, 0.18)"
+        : "0 8px 25px rgba(2, 132, 199, 0.16)",
+  },
+
+  "& svg": {
+    fontSize: "38px",
   },
 }));
 
@@ -59,7 +83,7 @@ const TechnologyList = () => {
       <Typography
         variant="h4"
         color="secondary"
-        sx={{ textAlign: "center", fontWeight: 600, mb: 4 }}
+        sx={{ textAlign: "center", mb: 4 }}
       >
         Tecnologias
       </Typography>
@@ -67,11 +91,13 @@ const TechnologyList = () => {
       <Box
         sx={{
           display: "grid",
+
           gridTemplateColumns: {
             xs: "repeat(2, minmax(0, 1fr))",
             sm: "repeat(3, minmax(0, 1fr))",
             md: "repeat(6, minmax(0, 1fr))",
           },
+
           gap: 2,
         }}
       >
@@ -85,10 +111,10 @@ const TechnologyList = () => {
               delay={index * 60}
             >
               <TechnologyCard>
-                <TechnologyIcon size={38} />
+                <TechnologyIcon />
 
                 <Typography
-                  color="primary.contrastText"
+                  color="text.primary"
                   sx={{ fontWeight: 600, textAlign: "center" }}
                 >
                   {technology.name}

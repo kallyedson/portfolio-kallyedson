@@ -12,9 +12,19 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 const StyledFooter = styled("footer")(({ theme }) => ({
   padding: "32px 0",
-  backgroundColor: "#000000",
-  borderTop: "1px solid rgba(56, 189, 248, 0.2)",
+
   color: theme.palette.text.secondary,
+
+  backgroundColor:
+    theme.palette.mode === "dark" ? "#000000" : "#e2e8f0",
+
+  borderTop: `1px solid ${
+    theme.palette.mode === "dark"
+      ? "rgba(56, 189, 248, 0.2)"
+      : "rgba(2, 132, 199, 0.2)"
+  }`,
+
+  transition: "background-color 0.35s ease, color 0.35s ease",
 }));
 
 const FooterContent = styled(Box)(({ theme }) => ({
@@ -37,9 +47,15 @@ const FooterLink = styled("a")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "center",
 
-  color: theme.palette.primary.contrastText,
+  color: theme.palette.text.primary,
   backgroundColor: "transparent",
-  border: "1px solid rgba(56, 189, 248, 0.3)",
+
+  border: `1px solid ${
+    theme.palette.mode === "dark"
+      ? "rgba(56, 189, 248, 0.3)"
+      : "rgba(2, 132, 199, 0.3)"
+  }`,
+
   borderRadius: "50%",
   textDecoration: "none",
   cursor: "pointer",
@@ -47,7 +63,7 @@ const FooterLink = styled("a")(({ theme }) => ({
   transition: "0.25s",
 
   "&:hover": {
-    color: theme.palette.primary.main,
+    color: "#ffffff",
     backgroundColor: theme.palette.secondary.main,
     borderColor: theme.palette.secondary.main,
     transform: "translateY(-3px)",
@@ -67,16 +83,21 @@ const BackToTopButton = styled("button")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "center",
 
-  color: theme.palette.primary.contrastText,
+  color: theme.palette.text.primary,
   backgroundColor: "transparent",
-  border: "1px solid rgba(56, 189, 248, 0.3)",
+
+  border: `1px solid ${
+    theme.palette.mode === "dark"
+      ? "rgba(56, 189, 248, 0.3)"
+      : "rgba(2, 132, 199, 0.3)"
+  }`,
+
   borderRadius: "50%",
   cursor: "pointer",
-
   transition: "0.25s",
 
   "&:hover": {
-    color: theme.palette.primary.main,
+    color: "#ffffff",
     backgroundColor: theme.palette.secondary.main,
     borderColor: theme.palette.secondary.main,
     transform: "translateY(-3px)",
@@ -100,7 +121,7 @@ const Footer = () => {
       <Container maxWidth="lg">
         <FooterContent>
           <Box>
-            <Typography color="primary.contrastText" sx={{ fontWeight: 600 }}>
+            <Typography color="text.primary" sx={{ fontWeight: 600 }}>
               Kallyedson Lino dos Santos
             </Typography>
 

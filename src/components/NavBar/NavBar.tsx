@@ -11,11 +11,16 @@ import {
   ListItemText,
   styled,
   Toolbar,
+  Tooltip,
   Typography,
 } from "@mui/material";
 
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+
+import { useColorMode } from "../../contexts/ColorModeContext";
 
 const navigationItems = [
   { label: "Início", sectionId: "inicio" },
@@ -26,10 +31,21 @@ const navigationItems = [
 ];
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
-  backgroundColor: "rgba(2, 6, 23, 0.88)",
+  color: theme.palette.text.primary,
+
+  backgroundColor:
+    theme.palette.mode === "dark"
+      ? "rgba(2, 6, 23, 0.88)"
+      : "rgba(248, 250, 252, 0.9)",
+
   backdropFilter: "blur(12px)",
-  borderBottom: "1px solid rgba(56, 189, 248, 0.18)",
-  color: theme.palette.primary.contrastText,
+  borderBottom: `1px solid ${
+    theme.palette.mode === "dark"
+      ? "rgba(56, 189, 248, 0.18)"
+      : "rgba(2, 132, 199, 0.2)"
+  }`,
+
+  transition: "background-color 0.3s ease, color 0.3s ease",
 }));
 
 const StyledToolbar = styled(Toolbar)({
@@ -60,7 +76,7 @@ const LogoButton = styled("button")(({ theme }) => ({
 const DesktopNavigation = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
-  gap: "14px",
+  gap: "12px",
 
   [theme.breakpoints.down("md")]: {
     display: "none",
@@ -72,7 +88,7 @@ const NavigationButton = styled(Button)(({ theme }) => ({
   minWidth: "auto",
   padding: "8px 10px",
 
-  color: theme.palette.primary.contrastText,
+  color: theme.palette.text.primary,
   fontSize: "0.82rem",
   fontWeight: 600,
 
@@ -100,13 +116,34 @@ const NavigationButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-const MobileMenuButton = styled(IconButton)(({ theme }) => ({
-  display: "none",
+const ThemeButton = styled(IconButton)(({ theme }) => ({
   color: theme.palette.secondary.main,
+  border: `1px solid ${
+    theme.palette.mode === "dark"
+      ? "rgba(56, 189, 248, 0.3)"
+      : "rgba(2, 132, 199, 0.3)"
+  }`,
+
+  "&:hover": {
+    backgroundColor:
+      theme.palette.mode === "dark"
+        ? "rgba(56, 189, 248, 0.1)"
+        : "rgba(2, 132, 199, 0.1)",
+  },
+}));
+
+const MobileActions = styled(Box)(({ theme }) => ({
+  display: "none",
+  alignItems: "center",
+  gap: "8px",
 
   [theme.breakpoints.down("md")]: {
-    display: "inline-flex",
+    display: "flex",
   },
+}));
+
+const MobileMenuButton = styled(IconButton)(({ theme }) => ({
+  color: theme.palette.secondary.main,
 }));
 
 const StyledDrawer = styled(Drawer)(({ theme }) => ({
@@ -114,23 +151,36 @@ const StyledDrawer = styled(Drawer)(({ theme }) => ({
     width: "270px",
     padding: "18px",
 
-    color: theme.palette.primary.contrastText,
-    backgroundColor: "#020617",
-    borderLeft: "1px solid rgba(56, 189, 248, 0.25)",
+    color: theme.palette.text.primary,
+    backgroundColor:
+      theme.palette.mode === "dark" ? "#020617" : "#f8fafc",
+
+    borderLeft: `1px solid ${
+      theme.palette.mode === "dark"
+        ? "rgba(56, 189, 248, 0.25)"
+        : "rgba(2, 132, 199, 0.25)"
+    }`,
   },
 }));
 
-const DrawerHeader = styled(Box)({
+const DrawerHeader = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
   paddingBottom: "18px",
   marginBottom: "10px",
-  borderBottom: "1px solid rgba(56, 189, 248, 0.18)",
-});
+
+  borderBottom: `1px solid ${
+    theme.palette.mode === "dark"
+      ? "rgba(56, 189, 248, 0.18)"
+      : "rgba(2, 132, 199, 0.18)"
+  }`,
+}));
 
 const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const { mode, toggleColorMode } = useColorMode();
 
   const scrollToSection = (sectionId: string) => {
     setMenuOpen(false);
@@ -140,6 +190,27 @@ const NavBar = () => {
       block: "start",
     });
   };
+
+  const themeButton = (
+    <Tooltip
+      title={
+        mode === "dark"
+          ? "Ativar modo claro"
+          : "Ativar modo escuro"
+      }
+    >
+      <ThemeButton
+        onClick={toggleColorMode}
+        aria-label={
+          mode === "dark"
+            ? "Ativar modo claro"
+            : "Ativar modo escuro"
+        }
+      >
+        {mode === "dark" ? <LightModeIcon /> : <DarkModeIcon />}
+      </ThemeButton>
+    </Tooltip>
+  );
 
   return (
     <>
@@ -162,14 +233,20 @@ const NavBar = () => {
                 {item.label}
               </NavigationButton>
             ))}
+
+            {themeButton}
           </DesktopNavigation>
 
-          <MobileMenuButton
-            onClick={() => setMenuOpen(true)}
-            aria-label="Abrir menu"
-          >
-            <MenuIcon />
-          </MobileMenuButton>
+          <MobileActions>
+            {themeButton}
+
+            <MobileMenuButton
+              onClick={() => setMenuOpen(true)}
+              aria-label="Abrir menu"
+            >
+              <MenuIcon />
+            </MobileMenuButton>
+          </MobileActions>
         </StyledToolbar>
       </StyledAppBar>
 
@@ -203,7 +280,10 @@ const NavBar = () => {
 
                 "&:hover": {
                   color: "secondary.main",
-                  backgroundColor: "rgba(56, 189, 248, 0.08)",
+                  backgroundColor:
+                    mode === "dark"
+                      ? "rgba(56, 189, 248, 0.08)"
+                      : "rgba(2, 132, 199, 0.08)",
                 },
               }}
             >

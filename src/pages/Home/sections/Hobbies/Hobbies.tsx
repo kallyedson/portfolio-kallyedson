@@ -1,4 +1,9 @@
-import { Container, Grid, styled, Typography } from "@mui/material";
+import {
+  Container,
+  Grid,
+  styled,
+  Typography,
+} from "@mui/material";
 
 import SportsEsportsOutlinedIcon from "@mui/icons-material/SportsEsportsOutlined";
 import SportsVolleyballOutlinedIcon from "@mui/icons-material/SportsVolleyballOutlined";
@@ -38,38 +43,69 @@ const StyledHobbies = styled("section")(({ theme }) => ({
   minHeight: "75vh",
   padding: "96px 0",
   scrollMarginTop: "70px",
-  color: theme.palette.primary.contrastText,
   overflow: "hidden",
 
-  background: `linear-gradient(
-    to bottom,
-    ${theme.palette.primary.main} 0%,
-    #050816 45%,
-    #000000 100%
-  )`,
+  color: theme.palette.text.primary,
+
+  background:
+    theme.palette.mode === "dark"
+      ? `linear-gradient(
+          to bottom,
+          ${theme.palette.primary.main} 0%,
+          #050816 45%,
+          #000000 100%
+        )`
+      : `linear-gradient(
+          to bottom,
+          #f8fafc 0%,
+          #f1f5f9 45%,
+          #e2e8f0 100%
+        )`,
+
+  transition: "background 0.35s ease, color 0.35s ease",
 }));
 
 const HobbyCard = styled("article")(({ theme }) => ({
   height: "100%",
   minHeight: "230px",
   padding: "28px",
-  borderRadius: "14px",
 
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
   alignItems: "flex-start",
 
-  backgroundColor: "rgba(0, 0, 0, 0.3)",
-  border: "1px solid rgba(56, 189, 248, 0.25)",
+  color: theme.palette.text.primary,
+
+  backgroundColor:
+    theme.palette.mode === "dark"
+      ? "rgba(0, 0, 0, 0.3)"
+      : "rgba(255, 255, 255, 0.75)",
+
+  border: `1px solid ${
+    theme.palette.mode === "dark"
+      ? "rgba(56, 189, 248, 0.25)"
+      : "rgba(2, 132, 199, 0.25)"
+  }`,
+
+  borderRadius: "14px",
+
+  boxShadow:
+    theme.palette.mode === "dark"
+      ? "none"
+      : "0 8px 25px rgba(15, 23, 42, 0.08)",
 
   transition:
-    "transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease",
+    "transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.3s ease",
 
   "&:hover": {
     transform: "translateY(-5px)",
     borderColor: theme.palette.secondary.main,
-    boxShadow: "0 10px 30px rgba(56, 189, 248, 0.16)",
+
+    boxShadow:
+      theme.palette.mode === "dark"
+        ? "0 10px 30px rgba(56, 189, 248, 0.16)"
+        : "0 10px 30px rgba(2, 132, 199, 0.16)",
   },
 }));
 
@@ -77,15 +113,25 @@ const IconContainer = styled("div")(({ theme }) => ({
   width: "56px",
   height: "56px",
   marginBottom: "20px",
-  borderRadius: "12px",
 
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
 
   color: theme.palette.secondary.main,
-  backgroundColor: "rgba(56, 189, 248, 0.08)",
-  border: "1px solid rgba(56, 189, 248, 0.3)",
+
+  backgroundColor:
+    theme.palette.mode === "dark"
+      ? "rgba(56, 189, 248, 0.08)"
+      : "rgba(2, 132, 199, 0.08)",
+
+  border: `1px solid ${
+    theme.palette.mode === "dark"
+      ? "rgba(56, 189, 248, 0.3)"
+      : "rgba(2, 132, 199, 0.3)"
+  }`,
+
+  borderRadius: "12px",
 
   "& svg": {
     fontSize: "32px",
@@ -97,18 +143,21 @@ const Hobbies = () => {
     <StyledHobbies id="hobbies">
       <Container maxWidth="lg">
         <Typography
-          component="h2"
           variant="h3"
           color="secondary"
-          sx={{ textAlign: "center", fontWeight: 600, mb: 2 }}
+          sx={{ textAlign: "center", mb: 2 }}
         >
           Hobbies e interesses
         </Typography>
 
         <Typography
-          component="p"
           color="text.secondary"
-          sx={{ textAlign: "center", maxWidth: "650px", mx: "auto", mb: 6 }}
+          sx={{
+            textAlign: "center",
+            maxWidth: "650px",
+            mx: "auto",
+            mb: 6,
+          }}
         >
           Algumas atividades que fazem parte dos meus momentos de lazer e
           descanso.
@@ -130,17 +179,16 @@ const Hobbies = () => {
                     </IconContainer>
 
                     <Typography
-                      component="h3"
+                      component="h5"
                       variant="h5"
-                      color="secondary"
-                      sx={{ fontWeight: 600, mb: 1.5 }}
+                      color="text.primary"
+                      sx={{ mb: 1.5 }}
                     >
                       {hobby.title}
                     </Typography>
 
-                    <Typography 
-                      component="p"
-                      color="text.secondary" 
+                    <Typography
+                      color="text.secondary"
                       sx={{ lineHeight: 1.8 }}
                     >
                       {hobby.description}
